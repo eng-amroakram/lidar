@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #ddd;
+    align-items: center;
+}
+
+header .logo img {
+    height: 40px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+.tabs {
+    display: flex;
+    background-color: #eee;
+    padding: 10px;
+}
+
+.tab {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.tab.active {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+
+.tab-content {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: white;
+}
+
+.tab-content.hide {
+    display: none;
+}
+
+.graph-placeholder {
+    margin-top: 20px;
+    height: 300px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.graph-placeholder .bar {
+    width: 40px;
+    margin: 0 10px;
+    background-color: #999;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.graph-placeholder .bar div {
+    width: 100%;
+    background-color: #333;
+}
+
+.graph-placeholder .bar-1 div {
+    height: 20%;
+}
+
+.graph-placeholder .bar-2 div {
+    height: 40%;
+}
+
+.graph-placeholder .bar-3 div {
+    height: 60%;
+}
+
+.graph-placeholder .bar-4 div {
+    height: 80%;
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+footer {
+    margin-top: 30px;
+    text-align: center;
+}
