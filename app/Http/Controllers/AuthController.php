@@ -180,7 +180,7 @@ class AuthController extends Controller
         if ($data['otp'] && $user) {
             if ($data['otp'] == $user->otp_code) {
                 $user->update([
-                    'otp' => null,
+                    'otp_code' => null,
                     'email_verified_at' => now()
                 ]);
                 return redirect()->route('frontend.index')->with('success', 'Your email has been verified successfully !!');
