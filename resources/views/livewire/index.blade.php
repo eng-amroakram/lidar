@@ -1,6 +1,6 @@
 <div class="right-side">
     <div class="login-container">
-        <h2 style="text-align: center;">{{ $otp ? 'Verify Your Accout' : 'Log in To Your Account' }}</h2>
+        <h2 style="text-align: center;">{{ $otp ? 'Verify Your Account' : 'Log in To Your Account' }}</h2>
 
         {{-- Flash message for registration success --}}
         @if (session('success'))
@@ -19,7 +19,7 @@
         @if ($otp)
             <form id="OtpForm" action="{{ route('auth.verify_email') }}" method="POST">
                 @csrf
-                <input type="text" maxlength="6" id="otp" name="otp" placeholder="Enter Otp Code">
+                <input type="text" maxlength="6" id="otp" name="otp" placeholder="Enter the OTP code">
                 @error('otp')
                     <small style="color: red;">{{ $message }}</small>
                 @enderror
