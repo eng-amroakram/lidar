@@ -41,6 +41,16 @@ class AuthController extends Controller
             return back()->withErrors($data)->withInput();
         }
 
+        $otp = rand(100000, 999999); // Generate a random OTP
+        $user = User::where('email', $request->email_phone)->orWhere('phone', $request->email_phone)->first();
+
+        if ($user) {
+            $user->update([
+                'otp_code' => $otp
+            ]);
+            Mail::to($user->email)->send(new OtpMail($otp, "Password Recovery", $user->name));
+        }
+
         return view('auth.password_recovery', [
             'email_phone' => $request->email_phone
         ]);
