@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OtpMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -90,10 +92,8 @@ class AuthController extends Controller
 
         // Attempt to log in the user
         if (Auth::attempt($credentials)) {
-            // Authentication passed, redirect the user to their intended page
-            return redirect()->route('frontend.index'); // You can change 'dashboard' to your desired page
+            return redirect()->route('frontend.index');
         } else {
-            // Authentication failed, redirect back with an error message
             return back()->withErrors(['password' => 'Invalid credentials, please try again.'])->withInput();
         }
     }
@@ -118,14 +118,19 @@ class AuthController extends Controller
             'password.confirmed' => 'Password confirmation does not match.',
         ]);
 
+        $otp = rand(100000, 999999); // Generate a random OTP
+
         // Create a new user and hash the password
         $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'otp_code' => $otp,
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        Mail::to($user->email)->send(new OtpMail($otp, "Registration", $user->name));
 
         // Redirect to the index route
         return redirect()->route('frontend.index')->with('success', 'Registration successful!');
@@ -154,6 +159,25 @@ class AuthController extends Controller
 
         // Optionally, you can flash a success message
         return redirect()->route('frontend.index')->with('success', 'Your password has been updated successfully.');
+    }
+
+    public function verify_email(Request $request)
+    {
+        $user = User::where('id', auth()->id())->first();
+
+        $data = $request->validate(['otp' => ['required',]]);
+
+        if ($data['otp'] && $user) {
+            if ($data['otp'] == $user->otp_code) {
+                $user->update([
+                    'otp' => null,
+                    'email_verified_at' => now()
+                ]);
+                return redirect()->route('frontend.index')->with('success', 'Your email has been verified successfully !!');
+            }
+        }
+
+        return redirect()->back()->with('error', 'error has occurred');
     }
 
     public function logout()

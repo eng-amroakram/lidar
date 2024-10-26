@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,96 +92,99 @@
 
 
         .controls .btn {
-      background-color: transparent;
-      border: none;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-    }
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
 
-    .leave-btn {
-      background-color: red;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 16px;
-    }
+        .leave-btn {
+            background-color: red;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-    .main-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      flex-grow: 1;
-      text-align: center;
-      background-color: #000;
-      color: white;
-    }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            text-align: center;
+            background-color: #000;
+            color: white;
+        }
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
 
-    p {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
 
-    .continue-btn {
-      background-color: #666;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        .continue-btn {
+            background-color: #666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .participants-section {
-      padding: 10px;
-      background-color: white;
-      color: black;
-      border-left: 1px solid #ddd;
-      position: absolute;
-      top: 110px;
-      right: 10px;
-    }
+        .participants-section {
+            padding: 10px;
+            background-color: white;
+            color: black;
+            border-left: 1px solid #ddd;
+            position: absolute;
+            top: 110px;
+            right: 10px;
+        }
 
-    .participants-section h3 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
+        .participants-section h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
 
-    .suspicious ul {
-      list-style: none;
-    }
+        .suspicious ul {
+            list-style: none;
+        }
 
-    .suspicious li {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
+        .suspicious li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
 
-    .block-btn, .allow-btn {
-      background-color: #333;
-      color: white;
-      border: none;
-      padding: 15px 20px;
-      margin: 5px;
-      cursor: pointer;
-      border-radius: 10px;
-    }
+        .block-btn,
+        .allow-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
 
-    .block-btn:hover, .allow-btn:hover, .continue-btn:hover {
-      background-color: #555;
-    }
+        .block-btn:hover,
+        .allow-btn:hover,
+        .continue-btn:hover {
+            background-color: #555;
+        }
 
-    .host-section, .participants-list {
-      margin-top: 10px;
-    }
-
-
+        .host-section,
+        .participants-list {
+            margin-top: 10px;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -197,29 +200,29 @@
         </header>
 
         <div class="participants-section">
-          <h3>Participants</h3>
-          <div class="suspicious">
-            <h4>Suspicious user</h4>
-            <ul>
-              <li>user1 <span>✖ ✔</span></li>
-              <li>user2 <span>✖ ✔</span></li>
-              <li>user3 <span>✖ ✔</span></li>
-            </ul>
-            <button class="block-btn">Block all</button>
-            <button class="allow-btn">Allow all</button>
-          </div>
-          <div class="host-section">
-            <h4>Host</h4>
-            <p>Host 1</p>
-            <p>Co-Host 1</p>
-          </div>
-          <div class="participants-list">
-            <h4>Participants</h4>
-            <p>user1</p>
-            <p>user2</p>
-            <p>........</p>
-            <p>........</p>
-          </div>
+            <h3>Participants</h3>
+            <div class="suspicious">
+                <h4>Suspicious user</h4>
+                <ul>
+                    <li>user1 <span>✖ ✔</span></li>
+                    <li>user2 <span>✖ ✔</span></li>
+                    <li>user3 <span>✖ ✔</span></li>
+                </ul>
+                <button class="block-btn">Block all</button>
+                <button class="allow-btn">Allow all</button>
+            </div>
+            <div class="host-section">
+                <h4>Host</h4>
+                <p>Host 1</p>
+                <p>Co-Host 1</p>
+            </div>
+            <div class="participants-list">
+                <h4>Participants</h4>
+                <p>user1</p>
+                <p>user2</p>
+                <p>........</p>
+                <p>........</p>
+            </div>
         </div>
 
 
@@ -232,24 +235,18 @@
     </div>
 
     <script>
-      document.querySelector('.block-btn').addEventListener('click', () => {
-        alert('All suspicious users blocked');
-      });
+        document.querySelector('.block-btn').addEventListener('click', () => {
+            alert('All suspicious users blocked');
+        });
 
-      document.querySelector('.allow-btn').addEventListener('click', () => {
-        alert('All suspicious users allowed');
-      });
+        document.querySelector('.allow-btn').addEventListener('click', () => {
+            alert('All suspicious users allowed');
+        });
 
-      document.querySelector('.continue-btn').addEventListener('click', () => {
-        alert('Meeting continued');
-      });
+        document.querySelector('.continue-btn').addEventListener('click', () => {
+            alert('Meeting continued');
+        });
     </script>
 </body>
+
 </html>
-
-
-
-
-
-
-

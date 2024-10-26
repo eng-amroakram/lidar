@@ -11,7 +11,7 @@
 <body>
     <header>
         <nav>
-            <img src="{{ asset('assets/img/logo.png') }}" alt="LiGAURD Logo" class="logo">
+            <img src="{{ asset('assets/img/logo-ligaurd.png') }}" alt="LiGAURD Logo" class="logo">
             <a href="{{ route('frontend.home') }}">Home</a>
             <a href="{{ route('frontend.meetings') }}">Meeting</a>
             <span>Hi, [User Name]</span>

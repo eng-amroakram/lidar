@@ -12,7 +12,7 @@
 
     <header>
         <div class="logo">
-            <img src="{{ asset('assets/img/logo.png') }}" alt="LiGAURD Logo" />
+            <img src="{{ asset('assets/img/logo-ligaurd.png') }}" alt="LiGAURD Logo" />
             <a href="{{ route('frontend.home') }}">Home</a>
             <a href="{{ route('frontend.meetings') }}">Meeting</a>
             <a href="#">Hi User name</a>
@@ -24,8 +24,15 @@
         </nav>
     </header>
 
-
     <main>
+
+        {{-- Flash message for registration success --}}
+        @if (session('success'))
+            <div class="alert" style="display: {{ session('success') ? 'block' : 'none' }};">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="tabs">
             <div class="tab active" id="detecting-summary-tab">
                 Detecting summary

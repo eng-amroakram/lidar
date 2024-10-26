@@ -14,7 +14,7 @@
     <div class="container">
         <header>
             <div class="logo">
-                <img src="{{ asset('assets/img/logo.png') }}" alt="LiGAURD Logo">
+                <img src="{{ asset('assets/img/logo-ligaurd.png') }}" alt="LiGAURD Logo">
             </div>
             <nav>
                 <span class="icon">👥</span>

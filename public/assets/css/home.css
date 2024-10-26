@@ -121,3 +121,13 @@ footer {
     margin-top: 30px;
     text-align: center;
 }
+
+.alert {
+    text-align: center;
+    color: green;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid green;
+    border-radius: 5px;
+    background-color: #f0fff0; /* Light green background */
+}

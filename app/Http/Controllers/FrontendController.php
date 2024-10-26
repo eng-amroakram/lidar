@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OtpMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+        if ($user && $user->email_verified_at) {
+            return view('frontend.home');
+        }
         return view('frontend.index');
     }
 
