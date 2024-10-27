@@ -122,6 +122,18 @@ footer {
     text-align: center;
 }
 
+.chart {
+    width: 100%; /* Make chart width adapt to container */
+    height: 500px; /* Adjust height to be smaller */
+}
+
+.charts-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 .alert {
     text-align: center;
     color: green;

@@ -115,7 +115,13 @@ class AuthController extends Controller
             'last_name' => ['required', 'string'],
             'phone' => ['required', 'string', 'unique:users,phone'],
             'email' => ['required', 'string', 'unique:users,email', 'confirmed'],
-            'password' => ['required', 'string', 'confirmed'],
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum 8 characters
+                'confirmed',
+                'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/' // At least one uppercase, one lowercase, and one digit
+            ],
         ], [
             'first_name.required' => 'First name is required.',
             'last_name.required' => 'Last name is required.',
@@ -125,7 +131,9 @@ class AuthController extends Controller
             'email.unique' => 'This email is already registered.',
             'email.confirmed' => 'Email confirmation does not match.',
             'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Password confirmation does not match.',
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, and one number.',
         ]);
 
         $otp = rand(100000, 999999); // Generate a random OTP
@@ -150,7 +158,17 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'email_phone' => ['required'],
-            'password' => ['required', 'confirmed'],
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum 8 characters
+                'confirmed',
+                'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/' // At least one uppercase, one lowercase, and one digit
+            ],
+        ], [
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, and one number.',
         ]);
 
         // Find the user by email or phone

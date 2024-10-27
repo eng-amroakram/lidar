@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LiGAURD Home Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
 </head>
 
@@ -43,26 +44,21 @@
         <div class="tab-content" id="detecting-summary-content">
             <h2>Detecting Summary</h2>
             <p>Summary of the detecting activities will appear here.</p>
+
+            <!-- Bar and Circular Charts -->
+            <div class="charts-container">
+                <div class="chart">
+                    <canvas id="barChart"></canvas>
+                </div>
+                <div class="chart">
+                    <canvas id="circularChart"></canvas>
+                </div>
+            </div>
         </div>
 
         <div class="tab-content hide" id="recording-attempt-content">
             <h2>Recording Attempt</h2>
             <p>Details of any recording attempt will appear here.</p>
-        </div>
-
-        <div class="graph-placeholder">
-            <div class="bar bar-1">
-                <div></div>
-            </div>
-            <div class="bar bar-2">
-                <div></div>
-            </div>
-            <div class="bar bar-3">
-                <div></div>
-            </div>
-            <div class="bar bar-4">
-                <div></div>
-            </div>
         </div>
     </main>
 

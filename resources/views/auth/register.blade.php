@@ -83,15 +83,16 @@
 
                         <div class="form-row">
                             <div class="input-wrapper">
-                                <input type="password" id="password" name="password" placeholder="Password" />
+                                <input type="password" id="password" minlength="8" name="password"
+                                    placeholder="Password" />
                                 @error('password')
                                     <small>{{ $message }}</small>
                                 @enderror
                             </div>
 
                             <div class="">
-                                <input type="password" id="password_confirmation" name="password_confirmation"
-                                    placeholder="Password Confirmation" />
+                                <input type="password" minlength="8" id="password_confirmation"
+                                    name="password_confirmation" placeholder="Password Confirmation" />
                                 @error('password_confirmation')
                                     <small>{{ $message }}</small>
                                 @enderror

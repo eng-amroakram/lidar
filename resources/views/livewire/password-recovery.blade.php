@@ -25,24 +25,23 @@
     @endif
 
     @if (!$user->otp_code)
-        <form id="recovery-form" action="{{ route('auth.forget_password') }}" method="POST">
-            @csrf
-            <input type="hidden" name="email_phone" value="{{ $email_phone }}" />
-            <input type="password" id="password" name="password" placeholder="New Password">
-            @error('password')
-                <small>{{ $message }}</small>
-            @enderror
+        {{-- <form id="recovery-form" action="{{ route('auth.forget_password') }}" method="POST"> --}}
+        {{-- @csrf --}}
+        <input type="hidden" name="email_phone" value="{{ $email_phone }}" />
+        <input type="password" id="password" minlength="8" wire:model="password" placeholder="New Password">
 
-            <input type="password" id="password_confirmation" name="password_confirmation"
-                placeholder="New Password Confirmation">
-            @error('password_confirmation')
-                <small>{{ $message }}</small>
-            @enderror
-            <button type="submit">Recover password</button>
-        </form>
+        @error('password')
+            <small>{{ $message }}</small>
+        @enderror
+
+        <input type="password" id="password_confirmation" minlength="8" wire:model="password_confirmation"
+            placeholder="New Password Confirmation">
+        @error('password_confirmation')
+            <small>{{ $message }}</small>
+        @enderror
+        <button wire:click="forget_password()">Recover password</button>
+        {{-- </form> --}}
     @endif
-
-
 
     <div class="links">
         <a href="{{ route('auth.register_page') }}">Register free</a>
