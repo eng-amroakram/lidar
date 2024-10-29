@@ -26,16 +26,5 @@ class MeetingSeeder extends Seeder
             'status' => 'Blocked',
             'restricted_image' => $faker->imageUrl(200, 200, 'abstract', true), // Fake image URL
         ]);
-
-        Meeting::create([
-            'title' => 'Security Briefing',
-            'date' => $faker->dateTimeBetween('-1 month', '+1 month'),
-            'participants_number' => $faker->numberBetween(10, 50),
-            'recording_attempts' => $faker->numberBetween(0, 3),
-            'username' => $faker->name(),
-            'id_number' => $faker->numerify('#########'), // Generates a random 9-digit ID
-            'status' => 'Ignored',
-            'restricted_image' => $faker->imageUrl(200, 200, 'abstract', true), // Fake image URL
-        ]);
     }
 }
