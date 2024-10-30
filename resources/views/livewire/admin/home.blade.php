@@ -26,10 +26,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <canvas class="col-sm-12 col-md-10 col-xl-8 mb-4" data-mdb-chart="bar"
-                            data-mdb-dataset-label="Traffic"
-                            data-mdb-labels="['Monday', 'Tuesday' , 'Wednesday' , 'Thursday' , 'Friday' , 'Saturday' , 'Sunday ']"
-                            data-mdb-dataset-data="[2112, 2343, 2545, 3423, 2365, 1985, 987]"></canvas>
+                            data-mdb-dataset-label="Detecting Summary for October"
+                            data-mdb-labels='["Week 1", "Week 2", "Week 3", "Week 4"]'
+                            data-mdb-dataset-data="[10, 15, 8, 12]"
+                            data-mdb-dataset-background-color='["rgba(75, 192, 192, 0.6)", "rgba(54, 162, 235, 0.6)", "rgba(255, 206, 86, 0.6)", "rgba(153, 102, 255, 0.6)"]'
+                            data-mdb-dataset-border-color='["rgba(75, 192, 192, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(153, 102, 255, 1)"]'
+                            data-mdb-dataset-border-width="1"></canvas>
                     </div>
+
                     <div class="col-md-6">
                         <canvas id="doughnut-chart"></canvas>
                     </div>
@@ -163,28 +167,37 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-
             // Doughnut chart
             const dataDoughnut = {
                 type: 'doughnut',
                 data: {
-                    labels: ['January', 'February', 'March', 'April', 'May'],
+                    labels: ['Detected', 'Not Detected'],
                     datasets: [{
-                        label: 'Traffic',
-                        data: [30, 45, 62, 65, 61],
+                        label: 'Detection Status',
+                        data: [60, 40],
                         backgroundColor: [
-                            'rgba(63, 81, 181, 0.5)',
-                            'rgba(77, 182, 172, 0.5)',
-                            'rgba(66, 133, 244, 0.5)',
-                            'rgba(156, 39, 176, 0.5)',
-                            'rgba(233, 30, 99, 0.5)',
+                            'rgba(54, 162, 235, 0.7)', // Detected
+                            'rgba(255, 99, 132, 0.7)' // Not Detected
                         ],
-                    }, ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)', // Detected border
+                            'rgba(255, 99, 132, 1)' // Not Detected border
+                        ],
+                        borderWidth: 1
+                    }]
                 },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: "top"
+                        }
+                    }
+                }
             };
 
+            // Initialize the chart with MDB Chart
             new mdb.Chart(document.getElementById('doughnut-chart'), dataDoughnut);
-
         });
     </script>
 @endpush
