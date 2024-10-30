@@ -26,6 +26,9 @@
                             <a class="nav-link" href="{{ route('frontend.home') }}">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('frontend.meetings') }}">Meetings</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#">Team Work</a>
                         </li>
                     </ul>

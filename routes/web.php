@@ -6,6 +6,7 @@ use App\Livewire\Admin\Auth\ForgotPassword;
 use App\Livewire\Admin\Auth\Login;
 use App\Livewire\Admin\Auth\Register;
 use App\Livewire\Admin\Home;
+use App\Livewire\Admin\Meetings;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,10 +54,12 @@ Route::controller(FrontendController::class)
         });
 
         Route::middleware(['web', 'auth', 'otp'])->group(function () {
-            Route::get('host', 'host')->name('host');
             Route::get('home', Home::class)->name('home');
+            Route::get('meetings', Meetings::class)->name('meetings');
+
+
+            Route::get('host', 'host')->name('host');
             Route::get('invite', 'invite')->name('invite');
-            Route::get('meetings', 'meetings')->name('meetings');
             Route::get('past_meetings', 'past_meetings')->name('past_meetings');
             Route::get('unauthorized_recording', 'unauthorized_recording')->name('unauthorized_recording');
         });

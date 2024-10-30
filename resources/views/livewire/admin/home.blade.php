@@ -1,4 +1,4 @@
-<div class="container" style="border: 1px solid #000; padding: 20px;">
+<div class="container" style="border: 1px solid #000;">
     <div class="p-2 mb-4">
         <!-- Tabs navs -->
         <ul class="nav nav-tabs nav-fill mb-3" id="ex1" role="tablist" wire:ignore>
