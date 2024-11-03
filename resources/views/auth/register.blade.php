@@ -24,7 +24,7 @@
         <div class="container">
             <div class="left-side">
                 <div class="branding">
-                    <img class="main-logo" src="{{ asset('assets/img/logo-ligaurd.png') }}" alt="LiGAURD Logo" />
+                    <img class="main-logo" src="{{ asset('assets/admin/images/logo-blank.png') }}" alt="LiGAURD Logo" />
                     <p class="welcome">Welcome to LiGAURD</p>
                 </div>
             </div>

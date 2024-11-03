@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="col-sm-6 px-0 d-none d-sm-block">
-                    <img src="{{ asset('assets/admin/images/login.png') }}" alt="Login image" class="w-100 vh-100"
+                    <img src="{{ asset('assets/admin/images/logo-blank.png') }}" alt="Login image" class="w-100 vh-100"
                         style="object-fit: cover; object-position: left;">
                 </div>
             </div>

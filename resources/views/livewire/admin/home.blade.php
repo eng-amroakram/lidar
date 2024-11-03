@@ -176,12 +176,12 @@
                         label: 'Detection Status',
                         data: [60, 40],
                         backgroundColor: [
-                            'rgba(54, 162, 235, 0.7)', // Detected
-                            'rgba(255, 99, 132, 0.7)' // Not Detected
+                            'rgba(205, 233, 185, 0.7)', // Detected
+                            'rgba(154, 154, 154, 0.7)' // Not Detected
                         ],
                         borderColor: [
-                            'rgba(54, 162, 235, 1)', // Detected border
-                            'rgba(255, 99, 132, 1)' // Not Detected border
+                            'rgba(205, 233, 185, 0.7)', // Detected border
+                            'rgba(154, 154, 154, 0.7)' // Not Detected border
                         ],
                         borderWidth: 1
                     }]
