@@ -46,57 +46,23 @@
                             <table class="table table-bordered text-center">
                                 <thead>
                                     <tr>
-                                        <th class="th-sm"><strong>ID</strong></th>
+                                        <th class="th-sm"><strong>Meeting ID</strong></th>
                                         <th class="th-sm"><strong>Title</strong></th>
-                                        <th class="th-sm"><strong>Date</strong></th>
                                         <th class="th-sm"><strong>Participants</strong></th>
-                                        <th class="th-sm"><strong>Recording</strong></th>
-                                        <th class="th-sm"><strong>Username</strong></th>
-                                        <th class="th-sm"><strong>ID Number</strong></th>
-                                        {{-- <th class="th-sm"><strong>Status</strong></th> --}}
-                                        {{-- <th class="th-sm"><strong>Restricted</strong></th> --}}
-                                        <th class="th-sm"><strong>Actions</strong></th>
+                                        <th class="th-sm"><strong>Number of Attempts</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($meetings as $meeting)
-                                        <tr>
-                                            <td>{{ $meeting->id }}</td>
-                                            <td>{{ $meeting->title }}</td>
-                                            <td>{{ $meeting->date }}</td>
-                                            <td>{{ $meeting->participants_number }}</td>
-                                            <td>{{ $meeting->recording_attempts }}</td>
-                                            <td>{{ $meeting->username }}</td>
-                                            <td>{{ $meeting->id_number }}</td>
-                                            {{-- <td>
-                                                @if ($meeting->status === 'Blocked')
-                                                    <span class="badge badge-danger">Blocked</span>
-                                                @else
-                                                    <span class="badge badge-success">Ignored</span>
-                                                @endif
-                                            </td> --}}
-                                            {{-- <td>
-                                        <img src="{{ $meeting->restricted_image }}" alt="Restricted"
-                                            width="50" height="50">
-                                    </td> --}}
-                                            <td>
-                                                <div class="d-flex justify-content-center">
-                                                    <a type="button" class="text-danger fa-lg me-2 ms-2"
-                                                        wire:click='delete({{ $meeting->id }})' title="Delete">
-                                                        <i class="fas fa-trash-can"></i>
-                                                    </a>
-                                                    <a type="button" class="text-dark fa-lg me-2 ms-2" href="#"
-                                                        title="Edit">
-                                                        <i class="far fa-pen-to-square"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="9" class="fw-bold fs-6">No results found!</td>
-                                        </tr>
-                                    @endforelse
+                                    <tr>
+                                        <td>372976</td>
+                                        <td>LiGAURD</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a target="_blank"
+                                                href="{{ asset('assets/admin/pdf/Privacy infringement.pdf') }}">1</a>
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -195,8 +161,7 @@
                                                     <td>
                                                         <div class="d-flex justify-content-center">
                                                             <a type="button" class="text-danger fa-lg me-2 ms-2"
-                                                                wire:click='delete({{ $meeting->id }})'
-                                                                title="Delete">
+                                                                wire:click='delete({{ $meeting->id }})' title="Delete">
                                                                 <i class="fas fa-trash-can"></i>
                                                             </a>
                                                             <a type="button" class="text-dark fa-lg me-2 ms-2"
