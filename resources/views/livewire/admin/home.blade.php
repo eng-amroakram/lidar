@@ -24,7 +24,7 @@
                 <p>Summary of the detecting activities will appear here.</p>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <canvas class="col-sm-12 col-md-10 col-xl-8 mb-4" data-mdb-chart="bar"
                             data-mdb-dataset-label="Detecting Summary for October"
                             data-mdb-labels='["Week 1", "Week 2", "Week 3", "Week 4"]'
@@ -34,9 +34,9 @@
                             data-mdb-dataset-border-width="1"></canvas>
                     </div>
 
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <canvas id="doughnut-chart"></canvas>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="row">
