@@ -30,17 +30,19 @@ class PasswordRecovery extends Component
     public function verify()
     {
         $data = $this->validate([
-            'otp' => ['required', 'exists:users,otp_code']
+            'otp' => ['required']
         ], [
-            'otp.exists' => 'OTP is not correct'
+            // 'otp.exists' => 'OTP is not correct'
         ]);
 
         $user = User::where('phone', $this->email_phone)->orWhere('email', $this->email_phone)->first();
 
         if ($data['otp'] && $user) {
-            if ($data['otp'] == $user->otp_code) {
+            // if ($data['otp'] == $user->otp_code) {
+            if ($data['otp'] == session()->get('otp_code.otp_code')) {
+                session()->forget('otp_code');
                 $user->update([
-                    'otp_code' => null,
+                    // 'otp_code' => null,
                     'email_verified_at' => now()
                 ]);
                 // return redirect()->route('auth.password_recovery')->with('success', 'Your email has been verified successfully !!');

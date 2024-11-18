@@ -5,8 +5,10 @@ namespace App\Livewire\Admin\Auth;
 use App\Mail\OtpMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Layout;
@@ -82,19 +84,27 @@ class Register extends Component
             return false;
         }
 
-        $otp = rand(100000, 999999); // Generate a random OTP
+        $otpCode = rand(100000, 999999); // Generate a random OTP
+        $expirationTime = now()->addMinutes(5); // Set expiration time
+
 
         // Create a new user and hash the password
         $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
-            'otp_code' => $otp,
+            // 'otp_code' => $otp,
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        Mail::to($user->email)->send(new OtpMail($otp, "Registration", $user->name));
+        // Store OTP and expiration time in the session
+        Session::put('otp_code', [
+            'otp_code' => $otpCode,
+            'expires_at' => $expirationTime
+        ]);
+
+        Mail::to($user->email)->send(new OtpMail($otpCode, "Registration", $user->name));
 
         // Redirect to the index route
         return redirect()->route('frontend.index')->with('success', 'Registration successful!');

@@ -64,3 +64,14 @@ Route::controller(FrontendController::class)
             Route::get('unauthorized_recording', 'unauthorized_recording')->name('unauthorized_recording');
         });
     });
+
+
+
+Route::get('/set', function () {
+    session()->put('otp_code', 11111);
+    return "";
+});
+
+Route::get('/get', function () {
+    dd(session()->get('otp_code'));
+});

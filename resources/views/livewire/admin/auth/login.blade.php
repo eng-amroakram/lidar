@@ -1,7 +1,7 @@
-<div style="width: 30rem;" wire:ignore>
+<div style="width: 30rem;">
 
     @if ($otp_check == false)
-        <div>
+        <div wire:ignore>
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="text" id="emailPhone" class="form-control form-control-lg email-phone-input" />
@@ -44,15 +44,32 @@
     @if ($otp_check == true)
         <div>
             <!-- Email input -->
-            <div data-mdb-input-init class="form-outline mb-4">
+            <div data-mdb-input-init class="form-outline mb-4" wire:ignore>
                 <input type="text" id="otpCode" maxlength="6" minlength="6"
                     class="form-control form-control-lg otp-code-input" />
                 <label class="form-label" for="otpCode">Enter Your OTP Code</label>
                 <div class="form-helper text-danger otp_code-validation reset-validation"></div>
             </div>
 
+            <!-- Resend OTP Link -->
+            <div class="mt-3">
+                @if ($remainingTime > 0)
+                    <p class="text-muted" style="color: #7a9e85;">
+                        Resend OTP in: {{ gmdate('i:s', $remainingTime) }}
+                    </p>
+                @else
+                    <p class="text-muted" style="color: #7a9e85;">
+                        <a href="javascript:void(0)" wire:click="resendOtp" style="color: #7a9e85;"
+                            class="text-primary">
+                            Resend OTP
+                        </a>
+                    </p>
+                @endif
+            </div>
+
             <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" data-mdb-button-initialized="true"
-                class="btn btn-lg text-white btn-block submitting-otp-code-button" style="background-color: #7a9e85;">
+                class="btn btn-lg text-white btn-block submitting-otp-code-button" style="background-color: #7a9e85;"
+                wire:ignore>
                 <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
                     wire:loading></span>
                 Verify Account
@@ -174,6 +191,19 @@
                     }
                 }
             });
+
+
+            document.addEventListener('livewire:load', function() {
+                Livewire.emit('startCountdown');
+            });
+
+            // Countdown using Livewire hook
+            Livewire.on('startCountdown', () => {
+                setInterval(() => {
+                    Livewire.emit('decrementTimer');
+                }, 1000);
+            });
+
         });
     </script>
 @endpush

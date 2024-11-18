@@ -2,9 +2,12 @@
 
 namespace App\Livewire\Admin\Auth;
 
+use App\Mail\OtpMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Layout;
@@ -21,11 +24,24 @@ class Login extends Component
     public $otp_check = false;
     public $otp_code = '';
 
+    public $remainingTime; // Time remaining in seconds
+    public $canResend = false;
+
     public function mount()
     {
         $user = auth()->user();
         if ($user) {
             $this->otp_check = $user->email_verified_at ? false : true;
+
+            // Check if there's already an expiration time in the session
+            $expirationTime = Session::get('otp_code.expires_at');
+
+            if ($expirationTime && now()->lessThan($expirationTime)) {
+                $this->remainingTime = now()->diffInSeconds($expirationTime);
+            } else {
+                $this->remainingTime = 0;
+                $this->canResend = true;
+            }
         }
     }
 
@@ -64,12 +80,11 @@ class Login extends Component
         ];
 
         $rules = [
-            'otp_code' => ['required', 'exists:users,otp_code']
+            'otp_code' => ['required',]
         ];
 
         $messages = [
             'otp_code.required' => 'OTP Code is required',
-            'otp_code.exists' => 'OTP Code is not correct',
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -81,10 +96,13 @@ class Login extends Component
             return false;
         }
 
-        if ($user->otp_code == $data['otp_code']) {
+        // if ($user->otp_code == $data['otp_code']) {
+        if (session()->get('otp_code.otp_code') == $data['otp_code']) {
+
+            session()->forget('otp_code');
 
             $result = $user->update([
-                'otp_code' => null,
+                // 'otp_code' => null,
                 'email_verified_at' => now()
             ]);
 
@@ -105,5 +123,41 @@ class Login extends Component
             'text' => $message,
             'timerProgressBar' => true,
         ]);
+    }
+
+    public function resendOtp()
+    {
+        if (!$this->canResend) {
+            return;
+        }
+
+        $user = User::where('email', $this->email_phone)->orWhere('phone', $this->email_phone)->first();
+        if ($user) {
+
+            $otpCode = rand(100000, 999999); // Generate a random OTP
+            $expirationTime = now()->addMinutes(5); // Set expiration time
+
+            // Store OTP and expiration time in the session
+            Session::put('otp_code', [
+                'otp_code' => $otpCode,
+                'expires_at' => $expirationTime
+            ]);
+
+            // Reset timer
+            $this->remainingTime = now()->diffInSeconds($expirationTime);
+            $this->canResend = false;
+            Mail::to($user->email)->send(new OtpMail($otpCode, "Registration", $user->name));
+            session()->flash('message', 'A new OTP has been sent to your email!');
+        } else {
+            $this->alertMessage("Error !", 'error');
+        }
+    }
+
+    public function updatedRemainingTime()
+    {
+        if ($this->remainingTime <= 0) {
+            $this->remainingTime = 0;
+            $this->canResend = true;
+        }
     }
 }

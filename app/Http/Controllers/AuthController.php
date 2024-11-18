@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -41,14 +42,19 @@ class AuthController extends Controller
             return back()->withErrors($data)->withInput();
         }
 
-        $otp = rand(100000, 999999); // Generate a random OTP
+        $otpCode = rand(100000, 999999); // Generate a random OTP
+        $expirationTime = now()->addMinutes(5); // Set expiration time
+
         $user = User::where('email', $request->email_phone)->orWhere('phone', $request->email_phone)->first();
 
         if ($user) {
-            $user->update([
-                'otp_code' => $otp
+            // $user->update(['otp_code' => $otp]);
+            // Store OTP and expiration time in the session
+            Session::put('otp_code', [
+                'otp_code' => $otpCode,
+                'expires_at' => $expirationTime
             ]);
-            Mail::to($user->email)->send(new OtpMail($otp, "Password Recovery", $user->name));
+            // Mail::to($user->email)->send(new OtpMail($otp, "Password Recovery", $user->name));
         }
 
         return view('auth.password_recovery', [
@@ -136,19 +142,25 @@ class AuthController extends Controller
             'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, and one number.',
         ]);
 
-        $otp = rand(100000, 999999); // Generate a random OTP
+        $otpCode = rand(100000, 999999); // Generate a random OTP
+        $expirationTime = now()->addMinutes(5); // Set expiration time
 
         // Create a new user and hash the password
         $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
-            'otp_code' => $otp,
+            // 'otp_code' => $otp,
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        Mail::to($user->email)->send(new OtpMail($otp, "Registration", $user->name));
+        Session::put('otp_code', [
+            'otp_code' => $otpCode,
+            'expires_at' => $expirationTime
+        ]);
+
+        // Mail::to($user->email)->send(new OtpMail($otp, "Registration", $user->name));
 
         // Redirect to the index route
         return redirect()->route('frontend.index')->with('success', 'Registration successful!');
@@ -196,7 +208,8 @@ class AuthController extends Controller
         $data = $request->validate(['otp' => ['required',]]);
 
         if ($data['otp'] && $user) {
-            if ($data['otp'] == $user->otp_code) {
+            // if ($data['otp'] == $user->otp_code) {
+            if ($data['otp'] == session()->get('otp_code')) {
                 $user->update([
                     'otp_code' => null,
                     'email_verified_at' => now()

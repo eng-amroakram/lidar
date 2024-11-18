@@ -37,7 +37,6 @@
                 <div class="form-helper text-danger password_confirmation-validation reset-validation"></div>
             </div>
 
-
             <!-- Submit button -->
             <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" data-mdb-button-initialized="true"
                 class="btn btn-lg text-white btn-block submitting-resetting-password-button"
@@ -57,6 +56,22 @@
                     class="form-control form-control-lg otp-code-input" />
                 <label class="form-label" for="otpCode">Enter Your OTP Code</label>
                 <div class="form-helper text-danger otp_code-validation reset-validation"></div>
+            </div>
+
+            <!-- Resend OTP Link -->
+            <div class="mt-3">
+                @if ($remainingTime > 0)
+                    <p class="text-muted" style="color: #7a9e85;">
+                        Resend OTP in: {{ gmdate('i:s', $remainingTime) }}
+                    </p>
+                @else
+                    <p style="color: #7a9e85;">
+                        <a href="javascript:void(0)" wire:click="resendOtp" style="color: #7a9e85;"
+                            class="text-primary">
+                            Resend OTP
+                        </a>
+                    </p>
+                @endif
             </div>
 
             <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" data-mdb-button-initialized="true"

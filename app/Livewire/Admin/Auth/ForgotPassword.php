@@ -6,6 +6,7 @@ use App\Mail\OtpMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Layout;
@@ -24,13 +25,27 @@ class ForgotPassword extends Component
     public $check_password = false;
     public $otp_code = '';
 
+    public $remainingTime; // Time remaining in seconds
+    public $canResend = false;
+
     public function mount($email_phone = '')
     {
         $this->email_phone = $email_phone;
         $user = User::where('email', $email_phone)->orWhere('phone', $email_phone)->first();
+
         if ($user) {
-            $this->check_otp = $user->otp_code && $user->email_verified_at && $user->otp_code != 1 ? true : false;
-            $this->check_password = $user->otp_code == 1 && $user->email_verified_at ? true : false;
+            $this->check_otp = session()->get('otp_code.otp_code') && $user->email_verified_at && session()->get('otp_code.otp_code') != 1 ? true : false;
+            $this->check_password = session()->get('otp_code.otp_code') == 1 && $user->email_verified_at ? true : false;
+
+            // Check if there's already an expiration time in the session
+            $expirationTime = Session::get('otp_code.expires_at');
+
+            if ($expirationTime && now()->lessThan($expirationTime)) {
+                $this->remainingTime = now()->diffInSeconds($expirationTime);
+            } else {
+                $this->remainingTime = 0;
+                $this->canResend = true;
+            }
         }
     }
 
@@ -66,14 +81,17 @@ class ForgotPassword extends Component
             return false;
         }
 
-        $otp = rand(100000, 999999); // Generate a random OTP
+        $otpCode = rand(100000, 999999); // Generate a random OTP
+        $expirationTime = now()->addMinutes(5); // Set expiration time
         $user = User::where('email', $data['email_phone'])->orWhere('phone', $data['email_phone'])->first();
 
         if ($user) {
-            $user->update([
-                'otp_code' => $otp
+            // $user->update(['otp_code' => $otp]);
+            Mail::to($user->email)->send(new OtpMail($otpCode, "Password Recovery", $user->name));
+            Session::put('otp_code', [
+                'otp_code' => $otpCode,
+                'expires_at' => $expirationTime
             ]);
-            Mail::to($user->email)->send(new OtpMail($otp, "Password Recovery", $user->name));
         }
 
         return  redirect()->route('auth.forgot_password', ['email_phone' => $data['email_phone']]);
@@ -88,10 +106,10 @@ class ForgotPassword extends Component
 
         $validator = Validator::make(
             $data,
-            ['otp_code' => ['required', 'string', 'exists:users,otp_code']],
+            ['otp_code' => ['required', 'string']],
             [
                 'otp_code.required' => 'Please enter your OTP Code.',
-                'otp_code.exists' => 'Your OTP Code is not Correct',
+                // 'otp_code.exists' => 'Your OTP Code is not Correct',
             ]
         );
 
@@ -106,9 +124,18 @@ class ForgotPassword extends Component
         $user = User::where('phone', $this->email_phone)->orWhere('email', $this->email_phone)->first();
 
         if ($data['otp_code'] && $user) {
-            if ($data['otp_code'] == $user->otp_code) {
-                $user->update([
+            // if ($data['otp_code'] == $user->otp_code) {
+            if ($data['otp_code'] == session()->get('otp_code.otp_code')) {
+                session()->forget('otp_code');
+
+                // Store OTP and expiration time in the session
+                Session::put('otp_code', [
                     'otp_code' => 1,
+                    'expires_at' => now()->addMinutes(5)
+                ]);
+
+                $user->update([
+                    // 'otp_code' => 1,
                     'email_verified_at' => now()
                 ]);
             }
@@ -179,5 +206,43 @@ class ForgotPassword extends Component
             'text' => $message,
             'timerProgressBar' => true,
         ]);
+    }
+
+    public function resendOtp()
+    {
+        if (!$this->canResend) {
+            return;
+        }
+
+        $user = User::where('email', $this->email_phone)->orWhere('phone', $this->email_phone)->first();
+
+        if ($user) {
+            $otpCode = rand(100000, 999999); // Generate a random OTP
+            $expirationTime = now()->addMinutes(5); // Set expiration time
+
+            // Store OTP and expiration time in the session
+            Session::put('otp_code', [
+                'otp_code' => $otpCode,
+                'expires_at' => $expirationTime
+            ]);
+
+            // Reset timer
+            $this->remainingTime = now()->diffInSeconds($expirationTime);
+            $this->canResend = false;
+
+            Mail::to($user->email)->send(new OtpMail($otpCode, "Registration", $user->name));
+
+            session()->flash('message', 'A new OTP has been sent to your email!');
+        } else {
+            $this->alertMessage("Error !", 'error');
+        }
+    }
+
+    public function updatedRemainingTime()
+    {
+        if ($this->remainingTime <= 0) {
+            $this->remainingTime = 0;
+            $this->canResend = true;
+        }
     }
 }
