@@ -51,6 +51,8 @@
                 <div class="form-helper text-danger otp_code-validation reset-validation"></div>
             </div>
 
+            <div wire:poll.1000ms="decrementTimer"></div>
+
             <!-- Resend OTP Link -->
             <div class="mt-3">
                 @if ($remainingTime > 0)
@@ -59,6 +61,7 @@
                     </p>
                 @else
                     <p class="text-muted" style="color: #7a9e85;">
+                        Your OTP Code has expired
                         <a href="javascript:void(0)" wire:click="resendOtp" style="color: #7a9e85;"
                             class="text-primary">
                             Resend OTP
@@ -70,8 +73,8 @@
             <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" data-mdb-button-initialized="true"
                 class="btn btn-lg text-white btn-block submitting-otp-code-button" style="background-color: #7a9e85;"
                 wire:ignore>
-                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
-                    wire:loading></span>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading
+                    wire:target='verify'></span>
                 Verify Account
             </button>
         </div>

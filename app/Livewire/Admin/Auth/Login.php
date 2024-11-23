@@ -111,6 +111,8 @@ class Login extends Component
             }
 
             dd("Null");
+        } else {
+            $this->alertMessage('Your OTP Code in not Correct !', 'error');
         }
     }
 
@@ -132,6 +134,8 @@ class Login extends Component
         }
 
         $user = User::where('email', $this->email_phone)->orWhere('phone', $this->email_phone)->first();
+        $user = auth()->user();
+
         if ($user) {
 
             $otpCode = rand(100000, 999999); // Generate a random OTP
@@ -148,6 +152,7 @@ class Login extends Component
             $this->canResend = false;
             Mail::to($user->email)->send(new OtpMail($otpCode, "Registration", $user->name));
             session()->flash('message', 'A new OTP has been sent to your email!');
+            $this->alertMessage('A new OTP has been sent to your email!', 'success');
         } else {
             $this->alertMessage("Error !", 'error');
         }
@@ -158,6 +163,19 @@ class Login extends Component
         if ($this->remainingTime <= 0) {
             $this->remainingTime = 0;
             $this->canResend = true;
+        }
+    }
+
+    public function decrementTimer()
+    {
+        if ($this->remainingTime > 0) {
+            $this->remainingTime--;
+        } else {
+            $this->canResend = true; // Timer expired, allow resend
+            Session::put('otp_code', [
+                'otp_code' => null,
+                'expires_at' => now()->addMinutes(0)
+            ]);
         }
     }
 }

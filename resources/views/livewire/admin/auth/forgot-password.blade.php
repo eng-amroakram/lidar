@@ -1,7 +1,7 @@
-<div style="width: 30rem;" wire:ignore>
+<div style="width: 30rem;">
 
     @if ($check_otp == false && $check_password == false)
-        <div>
+        <div wire:ignore>
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="text" id="emailPhone" class="form-control form-control-lg email-phone-input" />
@@ -10,11 +10,12 @@
             </div>
 
             <!-- Submit button -->
-            <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" data-mdb-button-initialized="true"
+            <button type="submit" data-mdb-button-init="" data-mdb-ripple-init=""
+                data-mdb-button-initialized="true"
                 class="btn btn-lg text-white btn-block submitting-recovery-password-button"
                 style="background-color: #7a9e85;">
-                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
-                    wire:loading></span>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading
+                    wire:target="recovery_password"></span>
                 Send OTP Code
             </button>
 
@@ -22,7 +23,7 @@
     @endif
 
     @if ($check_password == true && $check_otp == false)
-        <div>
+        <div wire:ignore>
             <!-- Password input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="password" id="passwordID" class="form-control form-control-lg password-input" />
@@ -38,11 +39,12 @@
             </div>
 
             <!-- Submit button -->
-            <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" data-mdb-button-initialized="true"
+            <button type="submit" data-mdb-button-init="" data-mdb-ripple-init=""
+                data-mdb-button-initialized="true"
                 class="btn btn-lg text-white btn-block submitting-resetting-password-button"
                 style="background-color: #7a9e85;">
-                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
-                    wire:loading></span>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading
+                    wire:target="resetting_password"></span>
                 Reset Your Password
             </button>
         </div>
@@ -51,13 +53,14 @@
     @if ($check_otp == true && $check_password == false)
         <div>
             <!-- Email input -->
-            <div data-mdb-input-init class="form-outline mb-4">
+            <div data-mdb-input-init class="form-outline mb-4" wire:ignore>
                 <input type="text" id="otpCode" maxlength="6" minlength="6"
                     class="form-control form-control-lg otp-code-input" />
                 <label class="form-label" for="otpCode">Enter Your OTP Code</label>
                 <div class="form-helper text-danger otp_code-validation reset-validation"></div>
             </div>
 
+            <div wire:poll.1000ms="decrementTimer"></div>
             <!-- Resend OTP Link -->
             <div class="mt-3">
                 @if ($remainingTime > 0)
@@ -76,10 +79,11 @@
 
             <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" data-mdb-button-initialized="true"
                 class="btn btn-lg text-white btn-block submitting-otp-code-button" style="background-color: #7a9e85;">
-                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
-                    wire:loading></span>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading
+                    wire:target="getting_otp_code" wire:target='resendOtp'></span>
                 Verify Account
             </button>
+
         </div>
     @endif
 

@@ -7,6 +7,7 @@ use App\Livewire\Admin\Auth\Login;
 use App\Livewire\Admin\Auth\Register;
 use App\Livewire\Admin\Home;
 use App\Livewire\Admin\Meetings;
+use App\Livewire\Testing;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,10 +68,7 @@ Route::controller(FrontendController::class)
 
 
 
-Route::get('/set', function () {
-    session()->put('otp_code', 11111);
-    return "";
-});
+Route::get('/set', Testing::class);
 
 Route::get('/get', function () {
     dd(session()->get('otp_code'));

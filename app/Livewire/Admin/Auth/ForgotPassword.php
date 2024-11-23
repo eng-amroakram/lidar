@@ -104,6 +104,8 @@ class ForgotPassword extends Component
             "otp_code" => $this->otp_code,
         ];
 
+
+
         $validator = Validator::make(
             $data,
             ['otp_code' => ['required', 'string']],
@@ -131,18 +133,23 @@ class ForgotPassword extends Component
                 // Store OTP and expiration time in the session
                 Session::put('otp_code', [
                     'otp_code' => 1,
-                    'expires_at' => now()->addMinutes(5)
+                    'expires_at' => now()->addMinutes(0)
                 ]);
 
                 $user->update([
                     // 'otp_code' => 1,
                     'email_verified_at' => now()
                 ]);
+                $this->alertMessage('Process has been done successfully', 'success');
+                return  redirect()->route('auth.forgot_password', ['email_phone' => $this->email_phone]);
+            } else {
+                $this->alertMessage('Check Your OTP Code !', 'error');
+                return "";
             }
+        } else {
+            $this->alertMessage('An Error !', 'error');
+            return "";
         }
-
-        $this->alertMessage('Process has been done successfully', 'success');
-        return  redirect()->route('auth.forgot_password', ['email_phone' => $this->email_phone]);
     }
 
     #[On('submitting-resetting-password-data')]
@@ -243,6 +250,19 @@ class ForgotPassword extends Component
         if ($this->remainingTime <= 0) {
             $this->remainingTime = 0;
             $this->canResend = true;
+        }
+    }
+
+    public function decrementTimer()
+    {
+        if ($this->remainingTime > 0) {
+            $this->remainingTime--;
+        } else {
+            $this->canResend = true; // Timer expired, allow resend
+            Session::put('otp_code', [
+                'otp_code' => null,
+                'expires_at' => now()->addMinutes(0)
+            ]);
         }
     }
 }
