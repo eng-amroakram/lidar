@@ -85,8 +85,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://media.licdn.com/dms/image/v2/C561BAQH66uZOCHVnkA/company-background_10000/company-background_10000/0/1613552934809/lifeguard_medical_systems_pvt_ltd_cover?e=1730548800&v=beta&t=_ofuBBWYMIdDWkft6bonoxL9PWnamUsfX0XqRRwoYKM"
-                alt="Ligaurd Logo">
+            <img src="https://i.ibb.co/YDD8Dfq/Li-GAURD-3.png" alt="Ligaurd Logo">
             <h1>Ligaurd</h1>
             <p>A secure meeting with a watchful eye</p>
         </div>
